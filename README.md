@@ -1,2 +1,2 @@
-# OpenWIZ
+# OpenWiz
  

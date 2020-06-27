@@ -4,7 +4,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 
-namespace OpenWIZ
+namespace OpenWiz
 {
     /// <summary>Class <c>WizDiscoveryService</c> models the discovery routine used
     ///   by Wiz lights on the local network.</summary>

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Collections.Generic;
 
-namespace OpenWIZ
+namespace OpenWiz
 {
     /// <summary>Class <c>WizLightState</c> models the state communicated by a Wiz
     ///   light.</summary>

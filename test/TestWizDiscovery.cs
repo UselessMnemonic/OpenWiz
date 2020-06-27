@@ -1,4 +1,4 @@
-using OpenWIZ;
+using OpenWiz;
 using System;
 using System.Text;
 
