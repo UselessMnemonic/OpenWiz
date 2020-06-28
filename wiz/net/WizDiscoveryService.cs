@@ -12,7 +12,7 @@ namespace OpenWiz
     public class WizDiscoveryService
     {
         public const int PORT_DISCOVERY = 38899;
-        public const int PING_PERIOD_MS = 1000;
+        public const int PING_PERIOD_MS = 5000;
         
         private UdpClient discoveryClient;
         private Timer timer;
