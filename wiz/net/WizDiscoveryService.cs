@@ -11,19 +11,15 @@ namespace OpenWiz
     ///
     public class WizDiscoveryService
     {
-        public const int PORT_BROADCAST = 38899;
-        public const int PORT_LISTEN = 38899;
-        public const int PING_PERIOD_MS = 5000;
+        public const int PORT_DISCOVERY = 38899;
+        public const int PING_PERIOD_MS = 1000;
         
-        private int homeId;
-        private string hostIp;
-        private string hostMac;
+        private UdpClient discoveryClient;
+        private Timer timer;
         private bool keepAlive;
 
-        private UdpClient pinger;
-        private UdpClient listener;
-        private Timer timer;
         private byte[] pingData;
+        private string hostIp;
 
         /// <summary>Constructs a <c>WizDiscoveryService</c> targeting the
         ///   specified home</summary>
@@ -35,12 +31,9 @@ namespace OpenWiz
         public WizDiscoveryService(int homeId, string hostIp, string hostMac)
         {
             this.keepAlive = false;
-            this.homeId = homeId;
             this.hostIp = hostIp;
-            this.hostMac = hostMac;
 
-            pinger = null;
-            listener = null;
+            discoveryClient = null;
             timer = null;
             pingData = Encoding.ASCII.GetBytes(WizLightState.MakeRegistration(homeId, hostIp, hostMac).ToString());
         }
@@ -48,14 +41,14 @@ namespace OpenWiz
         /// Responsible for handling responses from Wiz lights
         private void ReceiveCallback(IAsyncResult ar)
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Any, PORT_LISTEN);
-            byte[] data = listener.EndReceive(ar, ref ep);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Any, PORT_DISCOVERY);
+            byte[] data = discoveryClient.EndReceive(ar, ref ep);
 
             // TODO: Share data with any listeners
             Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Got {data.Length} bytes:");
-            Console.WriteLine($"\t{Encoding.ASCII.GetString(data, 0, data.Length)}");
+            Console.WriteLine($"\t{Encoding.UTF8.GetString(data, 0, data.Length)}");
 
-            if (keepAlive) listener.BeginReceive(new AsyncCallback(ReceiveCallback), null);
+            if (keepAlive) discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), null);
         }
 
         /// Responsible for registering the host with Wiz lights 
@@ -68,8 +61,8 @@ namespace OpenWiz
             }
 
             Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Sending {pingData.Length} bytes:");
-            Console.WriteLine($"\t{Encoding.ASCII.GetString(pingData, 0, pingData.Length)}");
-            pinger.Send(pingData, pingData.Length, new IPEndPoint(IPAddress.Broadcast, PORT_BROADCAST));
+            Console.WriteLine($"\t{Encoding.UTF8.GetString(pingData, 0, pingData.Length)}");
+            discoveryClient.Send(pingData, pingData.Length, new IPEndPoint(IPAddress.Broadcast, PORT_DISCOVERY));
         }
 
         /// <summary>Method <c>Start</c> starts the discovery service.</summary>
@@ -79,23 +72,20 @@ namespace OpenWiz
         public void Start()
         {
             if (keepAlive) return;
-            
-            Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Starting service");
+            keepAlive = true;
 
+            Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Starting service");
             try
             {
-                listener = new UdpClient(PORT_LISTEN);
-                pinger = new UdpClient();
-                pinger.EnableBroadcast = true;
-
-                keepAlive = true;
-                listener.BeginReceive(new AsyncCallback(ReceiveCallback), null);
-                timer = new Timer(new TimerCallback(Ping), null, PING_PERIOD_MS, PING_PERIOD_MS);
+                discoveryClient = new UdpClient(new IPEndPoint(IPAddress.Any, 38899));
+                timer = new Timer(new TimerCallback(Ping), null, 0, PING_PERIOD_MS);
+                discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), null);
             }
             catch (SocketException e)
             {
                 keepAlive = false;
                 Console.WriteLine($"[WARNING] WizDiscoveryService@{hostIp}: Could not start service -- {e.Message}");
+                Console.WriteLine(e.StackTrace);
             }
             
         }
@@ -106,7 +96,11 @@ namespace OpenWiz
         ///
         public void Stop()
         {
-            keepAlive = false;
+            if (keepAlive)
+            {
+                keepAlive = false;
+                Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Stopping service");
+            }
         }
     }
 }
