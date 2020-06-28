@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 
 namespace OpenWiz
@@ -8,9 +9,12 @@ namespace OpenWiz
     ///
     public class WizLightState
     {
-        public int Id { get; set; }
-        public string Method { get; set; }
-        public IDictionary<string, object> Params { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public WizMethod Method { get; set; }
+        public WizParams Params { get; set; }
+        public WizResult Result { get; set; }
+        public WizError Error { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>Method <c>MakeRegistration</c> generates a state that can be
         ///   used to register the host with a Wiz light.</summary>
@@ -22,16 +26,15 @@ namespace OpenWiz
         ///
         public static WizLightState MakeRegistration(int homeId, string hostIp, string hostMac)
         {
-            WizLightState state = new WizLightState
-            {
-                Id = 0,
-                Method = "registration",
-                Params = new Dictionary<string, object>()
+            WizLightState state = new WizLightState {
+                Method = WizMethod.registration,
+                Params = new WizParams {
+                    HomeId = homeId,
+                    PhoneIp = hostIp,
+                    PhoneMac = hostMac.ToLower(),
+                    Register = true
+                }
             };
-            state.Params.Add("homeId", homeId);
-            state.Params.Add("phoneIp", hostIp);
-            state.Params.Add("phoneMac", hostMac.ToLower());
-            state.Params.Add("register", true);
             return state;
         }
 
