@@ -4,6 +4,8 @@ namespace OpenWiz
     ///
     public enum WizMethod
     {
-        registration
+        registration,
+        getPilot,
+        setPilot
     }
 }
