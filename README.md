@@ -1,5 +1,9 @@
 # OpenWiz
 OpenWiz is a reverse-engineered implementation of the LAN API used between Wiz brand smart lights and the Wiz Android App. The project targets .NET Core, and is 100% C#.
+### Acknowledgements
+These projects have been every useful in confirming my understanding of how Wiz brand lights work:
+https://github.com/basriram/openhab2-addons/tree/master/addons/binding/org.openhab.binding.wizlighting
+https://github.com/SRGDamia1/openhab2-addons/tree/wizlighting2/bundles/org.openhab.binding.wizlighting
 ### Current Findings
 #### Network
 The service uses UDP for transport. Port `38900` is used by the App to recieve, while `38899` is used by the light to recieve.
