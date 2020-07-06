@@ -6,7 +6,7 @@ The service uses UDP for transport. Port `38900` is used by the App to recieve, 
 Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
 #### Format
 Data exchanged is exchanged between devices using JSON, seemingly encoded in UTF8.
-The format for JSON objects is somewhaat follows:
+The format for JSON objects is somewhat follows:
 ```
 {
   "method" : "",
