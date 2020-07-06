@@ -6,6 +6,7 @@ namespace OpenWiz
     {
         registration,
         getPilot,
-        setPilot
+        setPilot,
+        syncPilot
     }
 }
