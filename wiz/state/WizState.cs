@@ -99,7 +99,7 @@ namespace OpenWiz
         public static WizState MakeGetSystemConfig()
         {
             return new WizState {
-                Method = WizMethod.getUserConfig
+                Method = WizMethod.getSystemConfig
             };
         }
 
