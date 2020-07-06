@@ -71,13 +71,10 @@ namespace OpenWiz
         ///   on which lights are reachable</param>
         /// <returns>A <c>WizLightState</c> containing the request.</returns>
         ///
-        public static WizState MakeGetState(int homeId)
+        public static WizState MakeGetPilot()
         {
             return new WizState {
-                Method = WizMethod.getPilot,
-                Id = 0,
-                Params = new WizParams {
-                }
+                Method = WizMethod.getPilot
             };
         }
 
