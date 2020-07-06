@@ -12,7 +12,6 @@ namespace OpenWiz
         /// Gets the MAC of the remote light as a hex string.
         /// </summary>
         /// <value>An unformatted hex string.</value>
-        /// TODO: Check that first 3 bytes match Wiz brand MAC pool
         /// 
         public string Mac { get; }
 

@@ -4,8 +4,9 @@ using System;
 
 namespace OpenWiz
 {
-    /// <summary>Class <c>WizLightState</c> models the state communicated by a Wiz
-    ///   light.</summary>
+    /// <summary>
+    /// Models the state communicated by a Wiz light.
+    /// </summary>
     ///
     public class WizState
     {
@@ -45,12 +46,13 @@ namespace OpenWiz
         /// 
         public int? Id { get; set; }
 
-        /// <summary>Method <c>MakeRegistration</c> generates an object that can be
-        ///   used to register the host with a Wiz light.</summary>
+        /// <summary>
+        /// Generates an object that can be used to register the host with a Wiz light.
+        /// </summary>
         /// <param name="homeId">The Home ID of the Wiz light</param>
         /// <param name="hostIp">The IP of the host machine</param>
         /// <param name="hostMac">The MAC of the host machine's interface card</param>
-        /// <returns>A <c>WizLightState</c> containing registration information.</returns>
+        /// <returns>An object containing registration information.</returns>
         ///
         public static WizState MakeRegistration(int homeId, string hostIp, byte[] hostMac)
         {
@@ -65,11 +67,12 @@ namespace OpenWiz
             };
         }
 
-        /// <summary>Method <c>MakeGetState</c> generates an object that can be
-        ///   used to request the current state of a light.</summary>
-        /// <param name="homeId">The Home ID of the Wiz light</param>
-        ///   on which lights are reachable</param>
-        /// <returns>A <c>WizLightState</c> containing the request.</returns>
+        /// <summary>
+        /// Generates an object that can be used to request the current state of a light.
+        /// </summary>
+        /// <param name="homeId">The Home ID of the Wiz light
+        /// on which lights are reachable</param>
+        /// <returns>An object containing the request.</returns>
         ///
         public static WizState MakeGetPilot()
         {
@@ -78,10 +81,11 @@ namespace OpenWiz
             };
         }
 
-        /// <summary>Parses a <c>WizLightState</c> from a json string</summary>
+        /// <summary>
+        /// Parses a json string into its object representation.
+        /// </summary>
         /// <param name="jsonString">A JSON String</param>
-        /// <returns>A <c>WizLightState</c> representation of the string,
-        ///   or <c>null</c> if one cannot be constructed</returns>
+        /// <returns>A state object, or null if one cannot be constructed<./returns>
         ///
         public static WizState Parse(string jsonString)
         {
@@ -102,10 +106,11 @@ namespace OpenWiz
             return state;
         }
 
-        /// <summary>Parses a <c>WizLightState</c> from a byte array</summary>
+        /// <summary>
+        /// Parses an object from a byte array.
+        /// </summary>
         /// <param name="bytes">A byte array holding UTF8 encoded json</param>
-        /// <returns>A <c>WizLightState</c> representation of the encoded state,
-        ///   or <c>null</c> if one cannot be constructed</returns>
+        /// <returns>A state object, or null if one cannot be constructed.</returns>
         ///
         public static WizState Parse(byte[] bytes)
         {
@@ -126,10 +131,11 @@ namespace OpenWiz
             return state;
         }
 
-        /// <summary>Parses a <c>WizLightState</c> from an <c>ArraySegment</c></summary>
+        /// <summary>
+        /// Parses an object from an ArraySegment.
+        /// </summary>
         /// <param name="bytes">A byte array holding UTF8 encoded json</param>
-        /// <returns>A <c>WizLightState</c> representation of the encoded state,
-        ///   or <c>null</c> if one cannot be constructed</returns>
+        /// <returns>A state object, or null if one cannot be constructed.</returns>
         ///
         public static WizState Parse(ArraySegment<byte> bytes)
         {
@@ -150,9 +156,10 @@ namespace OpenWiz
             return state;
         }
 
-        /// <summary>Method <c>ToUTF8</c> serializes the <c>WizLightState</c>
-        ///   into raw UTF8.</summary>
-        /// <returns>A UTF8 encoding of this state</returns>
+        /// <summary>
+        /// Serializes the state object into raw UTF8 JSON.
+        /// </summary>
+        /// <returns>A UTF8 encoding of this state, in JSON.</returns>
         ///
         public byte[] ToUTF8()
         {
@@ -163,9 +170,10 @@ namespace OpenWiz
             });
         }
 
-        /// <summary>Method <c>ToString</c> serializes the <c>WizLightState</c>
-        ///   into JSON.</summary>
-        /// <returns>A JSON string</returns>
+        /// <summary>
+        /// Serializes the state object into a JSON string.
+        /// </summary>
+        /// <returns>A JSON encoding of this state.</returns>
         ///
         override public string ToString()
         {

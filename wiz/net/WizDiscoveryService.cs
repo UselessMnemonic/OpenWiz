@@ -1,13 +1,13 @@
 using System;
 using System.Text;
-using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 
 namespace OpenWiz
 {
-    /// <summary>Class <c>WizDiscoveryService</c> models the discovery routine used
-    ///   by Wiz lights on the local network.</summary>
+    /// <summary>
+    /// Models the discovery routine used by Wiz lights on the local network.
+    /// </summary>
     /// TODO: Use WizSocket as backend, someday
     ///
     public class WizDiscoveryService
@@ -20,8 +20,9 @@ namespace OpenWiz
         private UdpClient discoveryClient;
         private volatile bool KeepAlive;
 
-        /// <summary>Constructs a <c>WizDiscoveryService</c> targeting the
-        ///   specified home</summary>
+        /// <summary>
+        /// Constructs the service, targeting the a specific home of lights.
+        /// </summary>
         /// <param name="homeId">The Home ID to which the user's lights belong</param>
         /// <param name="hostIp">The IPv4 of the host machine, in standard dot notation</param>
         /// <param name="hostMac">The MAC of the host machine's interface card, 6 bytes wide</param>
@@ -34,10 +35,11 @@ namespace OpenWiz
             this.discoveryClient = new UdpClient(PORT_DISCOVERY);
         }
 
-        /// <summary>Method <c>Start</c> starts the discovery service asynchronously.</summary>
+        /// <summary>
+        /// Starts the discovery service asynchronously. Be cautious of
+        /// invoking the service on the same listener before a prior call completes.
+        /// </summary>
         /// <param name="listener">A <c>IWizUpdateListener</c> that responds to discoveries.</param>
-        /// The service can be used any time. Be cautious of invoking the service on the same
-        ///   listener before a prior call completes. It should be stopped soon after.
         ///
         public void Start(IWizDiscoveryListener listener)
         {
@@ -57,8 +59,10 @@ namespace OpenWiz
             }
         }
 
-        /// <summary>Requests for the discovery service to stop.</summary>
+        /// <summary>
+        /// Requests for the discovery service to stop.
         /// Should be called soon after the service has started.
+        /// </summary>
         ///
         public void Stop()
         {

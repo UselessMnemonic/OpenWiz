@@ -7,14 +7,14 @@ namespace OpenWiz
         /// <summary>
         /// The error code of the error.
         /// </summary>
-        /// <value>An int value, or null if none is given.</value>
+        /// <value>Any int value, or null if none is given.</value>
         /// 
         public int? Code { get; set; }
 
         /// <summary>
         /// The error message of the error.
         /// </summary>
-        /// <value>A string, or null if none is given.</value>
+        /// <value>Some string, or null if none is given.</value>
         /// 
         public string Message { get; set; }
     }

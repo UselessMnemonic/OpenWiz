@@ -1,13 +1,15 @@
 namespace OpenWiz
 {
-    /// <summary>Class <c>WizResult</c> stores result information in a <c>WizState</c></summary>
+    /// <summary>
+    /// Stores result information from a remote method call.
+    /// </summary>
     ///
     public class WizResult : WizParams
     {
         /// <summary>
-        /// Wether a method call was successful.
+        /// Wether a method call was successful. Not always used.
         /// </summary>
-        /// <value>true if the method call is successful; false or null, otherwise</value>
+        /// <value>true if a method call is successful; false or null, otherwise</value>
         /// 
         public bool? Success { get; set; }
     }

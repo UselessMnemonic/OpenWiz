@@ -1,6 +1,8 @@
 namespace OpenWiz
 {
-    /// <summary>Enum <c>WizMethod</c> lists methods in the Wiz light API</summary>
+    /// <summary>
+    /// Lists method names in the Wiz light API.
+    /// </summary>
     ///
     public enum WizMethod
     {

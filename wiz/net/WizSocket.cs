@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace OpenWiz
 {
     /// <summary>
     /// A socket-like class that wraps a standard UDP Socket to handle
-    /// Wiz communication
+    /// Wiz communication.
     /// </summary>
     ///
     public class WizSocket : IDisposable

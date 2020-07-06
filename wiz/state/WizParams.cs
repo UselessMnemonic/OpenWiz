@@ -7,21 +7,21 @@ namespace OpenWiz
         /// <summary>
         /// The Home ID of the remote light.
         /// </summary>
-        /// <value>An int value, or null if none is given.</value>
+        /// <value>A positive int value, or null if none is given.</value>
         /// 
         public int? HomeId { get; set; }
 
         /// <summary>
         /// The IP of the client host machine, in standard dot notation.
         /// </summary>
-        /// <value>A string, or null if none is given.</value>
+        /// <value>An IPv4 address in dot notation, or null if none is given.</value>
         /// 
         public string PhoneIp { get; set; }
 
         /// <summary>
         /// The MAC of the client host machine, as an unformatted lowercase hex string.
         /// </summary>
-        /// <value>A string, or null if none is given.</value>
+        /// <value>A 12-digit hex string, or null if none is given.</value>
         /// 
         public string PhoneMac { get; set; }
 
@@ -35,7 +35,7 @@ namespace OpenWiz
         /// <summary>
         /// The MAC of the remote light.
         /// </summary>
-        /// <value>A string, or null if none is given</value>
+        /// <value>A 12-digit hex string, or null if none is given</value>
         /// 
         public string Mac { get; set; }
 
@@ -50,56 +50,56 @@ namespace OpenWiz
         /// <summary>
         /// The Scene ID of the current scene.
         /// </summary>
-        /// <value>An int, or null if no scene is active.</value>
+        /// <value>A non-negative int, or null if no scene is active.</value>
         /// 
         public int? SceneId { get; set; }
 
         /// <summary>
-        /// The current speed at which a scene plays.
+        /// The current speed at which a scene plays, as a percent.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,100], or null if no value is given.</value>
         /// 
         public int? Speed { get; set; }
 
         /// <summary>
         /// The current Red component of the set color.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,255], or null if no value is given.</value>
         /// 
         public int? R { get; set; }
 
         /// <summary>
         /// The current Green component of the set color.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,255], or null if no value is given.</value>
         /// 
         public int? G { get; set; }
 
         /// <summary>
         /// The current Blue component of the set color.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,255], or null if no value is given.</value>
         /// 
         public int? B { get; set; }
 
         /// <summary>
         /// The current Cool White component of the set color.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,100], or null if no value is given.</value>
         /// 
         public int? C { get; set; }
 
         /// <summary>
         /// The current Warm White component of the set color.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,100], or null if no value is given.</value>
         /// 
         public int? W { get; set; }
 
         /// <summary>
-        /// The dimming/intensity of the light.
+        /// The dimming/intensity of the light, as a percent.
         /// </summary>
-        /// <value>An int, or null if no value is given.</value>
+        /// <value>An int in [0,100], or null if no value is given.</value>
         /// 
         public int? Dimming { get; set; }
     }
