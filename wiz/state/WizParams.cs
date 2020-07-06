@@ -40,6 +40,13 @@ namespace OpenWiz
         public string Mac { get; set; }
 
         /// <summary>
+        /// The remote light's firmware version.
+        /// </summary>
+        /// <value>A string, or null if no value is given.</value>
+        /// 
+        public int? FwVersion { get; set; }
+
+        /// <summary>
         /// Whether the remote light is on or off.
         /// </summary>
         /// <value>true if the light is on, false otherwise,
@@ -60,6 +67,13 @@ namespace OpenWiz
         /// <value>An int in [0,100], or null if no value is given.</value>
         /// 
         public int? Speed { get; set; }
+
+        /// <summary>
+        /// Whether the current scene is playing.
+        /// </summary>
+        /// <value>true if the current scene is playing; false, otherwise</value>
+        /// 
+        public int? Play { get; set; }
 
         /// <summary>
         /// The current Red component of the set color.
