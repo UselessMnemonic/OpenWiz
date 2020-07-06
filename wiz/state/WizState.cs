@@ -70,14 +70,36 @@ namespace OpenWiz
         /// <summary>
         /// Generates an object that can be used to request the current state of a light.
         /// </summary>
-        /// <param name="homeId">The Home ID of the Wiz light
-        /// on which lights are reachable</param>
         /// <returns>An object containing the request.</returns>
         ///
         public static WizState MakeGetPilot()
         {
             return new WizState {
                 Method = WizMethod.getPilot
+            };
+        }
+
+        /// <summary>
+        /// Generates an object that can be used to request the user's configuration of a light.
+        /// </summary>
+        /// <returns>An  object containing the request.</returns>
+        /// 
+        public static WizState MakeGetUserConfig()
+        {
+            return new WizState {
+                Method = WizMethod.getUserConfig
+            };
+        }
+
+        /// <summary>
+        /// Generates an object that can be used to request the internal configuration of a light.
+        /// </summary>
+        /// <returns>An  object containing the request.</returns>
+        /// 
+        public static WizState MakeGetSystemConfig()
+        {
+            return new WizState {
+                Method = WizMethod.getUserConfig
             };
         }
 

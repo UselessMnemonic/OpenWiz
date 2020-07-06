@@ -7,8 +7,16 @@ namespace OpenWiz
     public enum WizMethod
     {
         registration,
+        pulse,
+        firstBeat,
+
         getPilot,
         setPilot,
-        syncPilot
+        syncPilot,
+
+        getSystemConfig,
+        setSystemConfig,
+        getUserConfig,
+        setUserConfig
     }
 }
