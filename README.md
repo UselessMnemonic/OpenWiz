@@ -26,16 +26,17 @@ The light then responds with something like the following:
 {
   "method" : "getPilot",
   "result" : {
-    "mac":"000000000000",
-    "rssi":-74,
-    "state":true,
-    "sceneId":12,
-    "speed":100,
-    "temp":4200,
-    "dimming":34
+    "mac" : "000000000000",
+    "rssi" : -74,
+    "state" : true,
+    "sceneId" : 12,
+    "speed" : 100,
+    "temp" : 4200,
+    "dimming" : 34
   }
 }
 ```
+All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addresses are IPv4, in standard dot notation.
 #### JSON Fields
 ##### `method` : The method called, either by the app or the light.
 * `syncPilot` : Called by the remote light to tell a client of its current state.
