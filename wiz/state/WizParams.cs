@@ -218,7 +218,7 @@ namespace OpenWiz
         /// </summary>
         /// <value>An int pair, or null if no value is given.</value>
         /// 
-        public int[] drvConf { get; set; }
+        public int[] DrvConf { get; set; }
 
         /// <summary>
         /// The white temperature range of the light
