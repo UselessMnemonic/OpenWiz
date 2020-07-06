@@ -30,7 +30,7 @@ public class TestWizDiscovery : IWizDiscoveryListener {
     {
         WizState state = socket.EndReceiveFrom(result.AsyncState as WizHandle, result);
         Console.WriteLine($"[INFO] TestWizDiscovery::UpdateCallback:\n\t{state}");
-        socket.SendToAsync(WizState.MakeGetPilot(), result.AsyncState as WizHandle);
+        socket.SendToAsync(WizState.MakeGetUserConfig(), result.AsyncState as WizHandle);
         socket.BeginRecieveFrom(result.AsyncState as WizHandle, new AsyncCallback(UpdateCallback), result.AsyncState);
     }
 
