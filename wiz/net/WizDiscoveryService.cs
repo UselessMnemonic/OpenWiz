@@ -8,11 +8,11 @@ namespace OpenWiz
 {
     /// <summary>Class <c>WizDiscoveryService</c> models the discovery routine used
     ///   by Wiz lights on the local network.</summary>
+    /// TODO: Use WizSocket as backend, someday
     ///
     public class WizDiscoveryService
     {
         private const int PORT_DISCOVERY = 38899;
-        private const int PORT_PILOT = 38900;
         
         private byte[] pingData;
         private string hostIp;
@@ -31,7 +31,7 @@ namespace OpenWiz
             this.pingData = WizState.MakeRegistration(homeId, hostIp, hostMac).ToUTF8();
             this.hostIp = hostIp;
             this.KeepAlive = false;
-            this.discoveryClient = new UdpClient(new IPEndPoint(IPAddress.Broadcast, PORT_DISCOVERY));
+            this.discoveryClient = new UdpClient(PORT_DISCOVERY);
         }
 
         /// <summary>Method <c>Start</c> starts the discovery service asynchronously.</summary>
@@ -42,12 +42,12 @@ namespace OpenWiz
         public void Start(IWizDiscoveryListener listener)
         {
             if (KeepAlive | listener == null) return;
-            KeepAlive = true;
             Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Starting service");
+            KeepAlive = true;
             try
             {
-                discoveryClient.Send(pingData, pingData.Length);
                 discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), listener);
+                discoveryClient.SendAsync(pingData, pingData.Length, new IPEndPoint(IPAddress.Broadcast, PORT_DISCOVERY));
             }
             catch (SocketException e)
             {
@@ -89,9 +89,9 @@ namespace OpenWiz
 
                 if (wState.Error.Code == null) Console.Write("unknwon error");
                 else Console.Write($"error {wState.Error.Code}");
-                if (wState.Error.Message != null) Console.WriteLine($" -- {wState.Error.Message}");
-                else Console.WriteLine();
-                Console.WriteLine($"\t{jsonString}");
+                if (wState.Error.Message != null) Console.Write($" -- {wState.Error.Message}");
+                Console.WriteLine($" from {ep.Address}");
+                //Console.WriteLine($"\t{jsonString}");
             }
             else if (wState.Result != null)
             {
