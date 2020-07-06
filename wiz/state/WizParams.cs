@@ -97,6 +97,13 @@ namespace OpenWiz
         public int? W { get; set; }
 
         /// <summary>
+        /// The current white-light temperature, in Kelvin
+        /// </summary>
+        /// <value>A positive int, or null if no value is given.</value>
+        /// 
+        public int? Temp { get; set; }
+
+        /// <summary>
         /// The dimming/intensity of the light, as a percent.
         /// </summary>
         /// <value>An int in [0,100], or null if no value is given.</value>
