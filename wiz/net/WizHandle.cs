@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -32,17 +33,25 @@ namespace OpenWiz
         /// If mac or ip are null.
         /// </exception>
         /// <exception cref="System.FormatException">
-        /// If ip is not IPv4, or if mac is not strictly 12 digits.
+        /// If ip is not IPv4, or if mac is not strictly 12 hex digits.
         /// </exception>
         /// 
         public WizHandle(string mac, IPAddress ip)
         {
-            if (mac == null) throw new System.ArgumentNullException("MAC cannot be null.");
-            if (ip == null) throw new System.ArgumentNullException("IP cannot be null.");
-            if (mac.Length != 12) throw new System.ArgumentException("MAC must be exactly 12 digits.");
-            if (ip.AddressFamily != AddressFamily.InterNetwork) throw new System.ArgumentException("IP must be IPv4.");
+            if (mac == null) throw new ArgumentNullException("MAC cannot be null.");
+            if (ip == null) throw new ArgumentNullException("IP cannot be null.");
+            if (mac.Length != 12) throw new FormatException("MAC must be exactly 12 hex digits.");
+            if (ip.AddressFamily != AddressFamily.InterNetwork) throw new FormatException("IP must be IPv4.");
             Ip = ip;
             Mac = mac.ToLower();
+
+            char c;
+            for (int i = 0; i < 12; i++)
+            {
+                c = Mac[i];
+                if ((c < '0' || c > '9') &&
+                    (c < 'a' || c > 'f')) throw new FormatException("MAC must be a hex string.");
+            }
         }
     }
 }
