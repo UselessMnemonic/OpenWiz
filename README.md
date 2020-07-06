@@ -4,6 +4,8 @@ OpenWiz is a reverse-engineered implementation of the LAN API used between Wiz b
 These projects have been every useful in confirming my understanding of how Wiz brand lights work:
 https://github.com/basriram/openhab2-addons/tree/master/addons/binding/org.openhab.binding.wizlighting
 https://github.com/SRGDamia1/openhab2-addons/tree/wizlighting2/bundles/org.openhab.binding.wizlighting
+### Supported Devices
+At the moment, only the BR30 bulbs (those in my poessesion) have been tested.
 ### Current Findings
 #### Network
 The service uses UDP for transport. Port `38900` is used by the App to recieve, while `38899` is used by the light to recieve.
@@ -43,20 +45,23 @@ The light then responds with something like the following:
 All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addresses are IPv4, in standard dot notation.
 #### JSON Fields
 ##### `method` : The method called, either by the app or the light.
-* `syncPilot` : Called by the remote light to tell a client of its current state.
+* `registration` : Called by a client to search for lights on the local network.
+* `pulse` : Called by a client to signal a light for updates (?)
+* `firstBeat` : Called by a remote light to tell a client of its configuration (?)
+
 * `getPilot` : Called by the client to ask a remote light of its current state.
 * `setPilot` : Called by a client to change the state of a remote light.
-* `registration` : Called by a client to search for lights on the local network.
+* `syncPilot` : Called by the remote light to tell a client of its current state.
+
+*  `getUserConfig` : Called by a client to ask a remote light of any user settings
+*  `setUserConfig` : Called by a client to change a remote light's user settings
+*  `getSystemConfig` : Called by a client to ask a remote light of any internal configuration
+*  `setSystemConfig` : Called by a client to change a remote light's internal configuration
 ##### `result` and `params` : Similar fields used to capture the state variables of a light.
-* `homeId` : The Home ID of the target light, used in the `registration` method.
-* `phoneIp` : The IP of the client, used in the `registration` method.
-* `phoneMac` : The MAC of the client, used in the `registration` method.
-* `register` : Wether a registration is occuring, seemingly.
-* `mac` : The MAC of the remote light, used in replies to some methods.
-* `rssi` : The RSSI of the last transmission, always a part of the `result`.
 * `state` : Wether the remote light is on.
 * `sceneId` : The Scene ID of the selected scene playing on the remote light.
 * `speed` : The speed at which the selected scene is playing.
+* `play` : Whether the current scene is playing.
 * `r` : The Red componenet of the selected color.
 * `g` : The Green component of the selected color.
 * `b` : The Blue component of the selected color.
@@ -64,6 +69,30 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 * `w` : The Warm White component of the selected color.
 * `temp` : The selected white-light temperature, in degrees Kelvin
 * `dimming` : The current brightness.
+* `rssi` : The RSSI of the last transmission, always a part of the `result`.
+
+* `phoneIp` : The IP of the client, used in the `registration` method.
+* `phoneMac` : The MAC of the client, used in the `registration` method.
+* `register` : Wether a registration is occuring, seemingly.
+
+* `moduleName` : 
+* `mac` : The MAC of the remote light, used in replies to some methods.
+* `typeId` : Unsure
+* `homeId` : The Home ID of the target light, used in the `registration` method.
+* `groupId` : The Group ID of the target light, positive if assigned.
+* `roomId` : The Room ID of the target light, positive if assigned.
+* `homeLock` : Unsure
+* `pairingLock` : Unsure
+* `fwVersion` : The firmware version of the light, as a string.
+* `fadeIn` : Possibly the fade-in time during power-on
+* `fadeOut` : Possibly the fade-out time during power-off
+* `fadeNight` : Unsure
+* `dftDim` : Unsure
+* `pwmRange` : Unsure
+* `drvConf` : Unsure
+* `whiteRange` : The white temperature range supported by the light
+* `extRange` : The white temperature range advertised to the user
+* `po` : Unsure
 ##### `error` : Describes an error following a transmission.
 * `code` : An error code, which is partially useless to us.
 * `message` : A string that describes the error, sometimes useful for the client.
