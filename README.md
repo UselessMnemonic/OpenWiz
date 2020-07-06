@@ -13,7 +13,7 @@ Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
 #### Format
 Data exchanged is exchanged between devices using JSON, seemingly encoded in UTF8.
 The format for JSON objects is somewhat follows:
-```
+```JSON
 {
   "method" : "",
   "params" : {},
@@ -22,13 +22,13 @@ The format for JSON objects is somewhat follows:
 }
 ```
 Not all fields are used in every communication. For example, to request the current state of the light, one may use:
-```
+```JSON
 {
   "method" : "getPilot"
 }
 ```
 The light then responds with something like the following:
-```
+```JSON
 {
   "method" : "getPilot",
   "result" : {
@@ -75,7 +75,7 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 * `phoneMac` : The MAC of the client, used in the `registration` method.
 * `register` : Wether a registration is occuring, seemingly.
 
-* `moduleName` : 
+* `moduleName` : The internal name of the remote light.
 * `mac` : The MAC of the remote light, used in replies to some methods.
 * `typeId` : Unsure
 * `homeId` : The Home ID of the target light, used in the `registration` method.
