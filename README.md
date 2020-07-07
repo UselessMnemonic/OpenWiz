@@ -1,16 +1,16 @@
 # OpenWiz
 OpenWiz is a reverse-engineered implementation of the LAN API used between Wiz brand smart lights and the Wiz Android App. The project targets .NET Core, and is 100% C#.
-### Acknowledgements
+## Acknowledgements
 These projects have been every useful in confirming my understanding of how Wiz brand lights work:
 https://github.com/basriram/openhab2-addons/tree/master/addons/binding/org.openhab.binding.wizlighting
 https://github.com/SRGDamia1/openhab2-addons/tree/wizlighting2/bundles/org.openhab.binding.wizlighting
-### Supported Devices
+## Supported Devices
 At the moment, only the BR30 bulbs (those in my poessesion) have been tested.
-### Current Findings
-#### Network
+## Current Findings
+### Network
 The service uses UDP for transport. Port `38900` is used by the App to recieve, while `38899` is used by the light to recieve.
 Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
-#### Format
+### Format
 Data exchanged is exchanged between devices using JSON, seemingly encoded in UTF8.
 The format for JSON objects is somewhat follows:
 ```JSON
@@ -43,8 +43,8 @@ The light then responds with something like the following:
 }
 ```
 All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addresses are IPv4, in standard dot notation.
-#### JSON Fields
-##### `method` : The method called, either by the app or the light.
+### JSON Fields
+#### `method` : The method called, either by the app or the light.
 * `registration` : Called by a client to search for lights on the local network.
 * `pulse` : Called by a client to signal a light for updates (?)
 * `firstBeat` : Called by a remote light to tell a client of its configuration (?)
@@ -57,7 +57,7 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 *  `setUserConfig` : Called by a client to change a remote light's user settings
 *  `getSystemConfig` : Called by a client to ask a remote light of any internal configuration
 *  `setSystemConfig` : Called by a client to change a remote light's internal configuration
-##### `result` and `params` : Similar fields used to capture the state variables of a light.
+#### `result` and `params` : Similar fields used to capture the state variables of a light.
 * `state` : Wether the remote light is on.
 * `sceneId` : The Scene ID of the selected scene playing on the remote light.
 * `speed` : The speed at which the selected scene is playing.
@@ -93,6 +93,11 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 * `whiteRange` : The white temperature range supported by the light
 * `extRange` : The white temperature range advertised to the user
 * `po` : Unsure
-##### `error` : Describes an error following a transmission.
+#### `error` : Describes an error following a transmission.
 * `code` : An error code, which is partially useless to us.
 * `message` : A string that describes the error, sometimes useful for the client.
+## How to use
+Simply import the code into your project. No NuGet package exists (yet!)
+If you plan to have the user input the IP of their lights, you need only use `WizHandle` and `WizSocket`. If you are seeking to enable auto-discovery, you will need the user's Home ID in conjuction with `WizDiscoveryService`. This is done in good faith for any people that happen to use lights on the same LAN on different Home ID's. Registration is not required, however, to change a light's state. Please be curteous.
+### Receiving updates
+This section is under construction. For a general example, see the test directoy.
