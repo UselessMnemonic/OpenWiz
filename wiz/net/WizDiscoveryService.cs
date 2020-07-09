@@ -99,8 +99,8 @@ namespace OpenWiz
             }
             else if (wState.Result != null)
             {
-                Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Got response:");
-                Console.WriteLine($"\t{jsonString}");
+                //Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Got response:");
+                //Console.WriteLine($"\t{jsonString}");
                 WizHandle handle = new WizHandle(wState.Result.Mac, ep.Address);
                 listener.OnDiscover(handle);
             }
