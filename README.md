@@ -98,6 +98,8 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 * `message` : A string that describes the error, sometimes useful for the client.
 ## How to use
 Simply import the code into your project. No NuGet package exists (yet!)
-If you plan to have the user input the IP of their lights, you need only use `WizHandle` and `WizSocket`. If you are seeking to enable auto-discovery, you will need the user's Home ID in conjuction with `WizDiscoveryService`. This is done in good faith for any people that happen to use lights on the same LAN on different Home ID's. Registration is not required, however, to change a light's state. Please be curteous.
+If you plan to have the user input the IP of their lights, you need only use `WizHandle` and `WizSocket`. If you are seeking to enable auto-discovery, you will need the user's Home ID in conjuction with `WizDiscoveryService`. This is done in good faith to avoid modifying the state of another home's lights.
+
+Registration is not required to modify a light's state, however please be curteous.
 ### Receiving updates
 This section is under construction. For a general example, see the test directoy.
