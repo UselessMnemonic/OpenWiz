@@ -11,7 +11,7 @@ At the moment, only the BR30 bulbs (those in my poessesion) have been tested.
 The service uses UDP for transport. Port `38900` is used by the App to recieve, while `38899` is used by the light to recieve.
 Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
 ### Format
-Data exchanged is exchanged between devices using JSON, seemingly encoded in UTF8.
+Data is exchanged between devices using JSON, seemingly encoded in UTF8.
 The format for JSON objects is somewhat follows:
 ```JSON
 {
