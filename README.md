@@ -12,7 +12,7 @@ The service uses UDP for transport. Port `38900` is used by the App to recieve, 
 Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
 ### Format
 Data is exchanged between devices using JSON, seemingly encoded in UTF8.
-The format for JSON objects is somewhat follows:
+The format for JSON objects is somewhat as follows:
 ```JSON
 {
   "method" : "",
@@ -21,7 +21,7 @@ The format for JSON objects is somewhat follows:
   "error"  : {}
 }
 ```
-Not all fields are used in every communication. For example, to request the current state of the light, one may use:
+Not all fields are used in every packet. For example, to request the current state of the light, one may use:
 ```JSON
 {
   "method" : "getPilot"
