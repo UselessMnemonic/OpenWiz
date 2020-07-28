@@ -11,8 +11,8 @@ At the moment, only the BR30 bulbs (those in my poessesion) have been tested.
 The service uses UDP for transport. Port `38900` is used by the App to recieve, while `38899` is used by the light to recieve.
 Broadcasts are made by clients to their broadcast address or `255.255.255.255`.
 ### Format
-Data exchanged is exchanged between devices using JSON, seemingly encoded in UTF8.
-The format for JSON objects is somewhat follows:
+Data is exchanged between devices using JSON, seemingly encoded in UTF8.
+The format for JSON objects is somewhat as follows:
 ```JSON
 {
   "method" : "",
@@ -21,7 +21,7 @@ The format for JSON objects is somewhat follows:
   "error"  : {}
 }
 ```
-Not all fields are used in every communication. For example, to request the current state of the light, one may use:
+Not all fields are used in every packet. For example, to request the current state of the light, one may use:
 ```JSON
 {
   "method" : "getPilot"
@@ -98,6 +98,8 @@ All MAC addresses are unformatted, 12-digit, lowercase hex strings. All IP addre
 * `message` : A string that describes the error, sometimes useful for the client.
 ## How to use
 Simply import the code into your project. No NuGet package exists (yet!)
-If you plan to have the user input the IP of their lights, you need only use `WizHandle` and `WizSocket`. If you are seeking to enable auto-discovery, you will need the user's Home ID in conjuction with `WizDiscoveryService`. This is done in good faith for any people that happen to use lights on the same LAN on different Home ID's. Registration is not required, however, to change a light's state. Please be curteous.
+If you plan to have the user input the IP of their lights, you need only use `WizHandle` and `WizSocket`. If you are seeking to enable auto-discovery, you will need the user's Home ID in conjuction with `WizDiscoveryService`. This is done in good faith to avoid modifying the state of another home's lights.
+
+Registration is not required to modify a light's state, however please be curteous.
 ### Receiving updates
 This section is under construction. For a general example, see the test directoy.
