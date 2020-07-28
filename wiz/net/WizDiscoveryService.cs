@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace OpenWiz
 {
@@ -14,8 +15,8 @@ namespace OpenWiz
     {
         private const int PORT_DISCOVERY = 38899;
         
-        private byte[] pingData;
-        private string hostIp;
+        private readonly byte[] pingData;
+        private readonly string hostIp;
 
         private UdpClient discoveryClient;
         private volatile bool KeepAlive;
@@ -29,10 +30,11 @@ namespace OpenWiz
         ///
         public WizDiscoveryService(int homeId, string hostIp, byte[] hostMac)
         {
-            this.pingData = WizState.MakeRegistration(homeId, hostIp, hostMac).ToUTF8();
+            WizState registrationData = WizState.MakeRegistration(homeId, hostIp, hostMac);
+            Debug.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Made registration info: {registrationData}");
+            pingData = registrationData.ToUTF8();
             this.hostIp = hostIp;
-            this.KeepAlive = false;
-            this.discoveryClient = new UdpClient(PORT_DISCOVERY);
+            KeepAlive = false;
         }
 
         /// <summary>
@@ -41,21 +43,23 @@ namespace OpenWiz
         /// </summary>
         /// <param name="listener">A <c>IWizUpdateListener</c> that responds to discoveries.</param>
         ///
-        public void Start(IWizDiscoveryListener listener)
+        public void Start(Action<WizHandle> discoveryAction)
         {
-            if (KeepAlive | listener == null) return;
-            Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Starting service");
+            if (KeepAlive | discoveryAction == null | discoveryClient != null) return;
+
+            discoveryClient = new UdpClient(PORT_DISCOVERY);
+            Debug.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Starting service");
             KeepAlive = true;
             try
             {
-                discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), listener);
+                discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), discoveryAction);
                 discoveryClient.SendAsync(pingData, pingData.Length, new IPEndPoint(IPAddress.Broadcast, PORT_DISCOVERY));
             }
             catch (SocketException e)
             {
                 KeepAlive = false;
-                Console.WriteLine($"[WARNING] WizDiscoveryService@{hostIp}: Could not ping lights -- {e.Message}");
-                Console.WriteLine(e.StackTrace);
+                Debug.WriteLine($"[WARNING] WizDiscoveryService@{hostIp}: Could not ping lights -- {e.Message}");
+                Debug.WriteLine(e.StackTrace);
             }
         }
 
@@ -69,43 +73,47 @@ namespace OpenWiz
             if (KeepAlive)
             {
                 KeepAlive = false;
-                Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Stopping service");
+                Debug.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Stopping service");
+                discoveryClient.Close();
+                discoveryClient = null;
             }
         }
 
         /// Responsible for handling responses from Wiz lights
         private void ReceiveCallback(IAsyncResult ar)
         {
+            if (!KeepAlive) return;
+
             IPEndPoint ep = new IPEndPoint(IPAddress.Any, PORT_DISCOVERY);
             byte[] data = discoveryClient.EndReceive(ar, ref ep);
             string jsonString = Encoding.UTF8.GetString(data);
             WizState wState = WizState.Parse(data);
 
-            IWizDiscoveryListener listener = (IWizDiscoveryListener) ar.AsyncState;
+            Action<WizHandle> discoveryAction = (Action<WizHandle>)ar.AsyncState;
             if (wState == null)
             {
-                Console.WriteLine($"[WARNING] WizDiscoveryService@{hostIp}: Got bad json message:");
-                Console.WriteLine($"\t{jsonString}");
+                Debug.WriteLine($"[WARNING] WizDiscoveryService@{hostIp}: Got bad json message:");
+                Debug.WriteLine($"\t{jsonString}");
             }
             else if (wState.Error != null)
             {
-                Console.Write($"[WARNING] WizDiscoveryService@{hostIp}: Encountered ");
+                Debug.Write($"[WARNING] WizDiscoveryService@{hostIp}: Encountered ");
 
-                if (wState.Error.Code == null) Console.Write("unknwon error");
-                else Console.Write($"error {wState.Error.Code}");
-                if (wState.Error.Message != null) Console.Write($" -- {wState.Error.Message}");
-                Console.WriteLine($" from {ep.Address}");
-                //Console.WriteLine($"\t{jsonString}");
+                if (wState.Error.Code == null) Debug.Write("unknwon error");
+                else Debug.Write($"error {wState.Error.Code}");
+                if (wState.Error.Message != null) Debug.Write($" -- {wState.Error.Message}");
+                Debug.WriteLine($" from {ep.Address}");
+                Debug.WriteLine($"\t{jsonString}");
             }
             else if (wState.Result != null)
             {
-                //Console.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Got response:");
-                //Console.WriteLine($"\t{jsonString}");
+                Debug.WriteLine($"[INFO] WizDiscoveryService@{hostIp}: Got response:");
+                Debug.WriteLine($"\t{jsonString}");
                 WizHandle handle = new WizHandle(wState.Result.Mac, ep.Address);
-                listener.OnDiscover(handle);
+                discoveryAction.Invoke(handle);
             }
 
-            if (KeepAlive) discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), listener);
+            discoveryClient.BeginReceive(new AsyncCallback(ReceiveCallback), discoveryAction);
         }
     }
 }

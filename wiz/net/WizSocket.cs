@@ -17,8 +17,8 @@ namespace OpenWiz
         public const int PORT_DISCOVER = 38899;
         private const int BUFFER_SIZE = 256;
 
-        private Socket socket;
-        private Dictionary<WizHandle, byte[]> bufferMap;
+        private readonly Socket socket;
+        private readonly Dictionary<WizHandle, byte[]> bufferMap;
 
         /// <summary>
         /// Initializes a new UDP/IP Datagram socket for Wiz lights.
@@ -109,7 +109,7 @@ namespace OpenWiz
             int rLen = socket.ReceiveFrom(buffer, ref ep);
             return WizState.Parse(new ArraySegment<byte>(buffer, 0, rLen));
         }
-        
+
         /// <summary>
         /// Sends data to a connected socket.
         /// </summary>

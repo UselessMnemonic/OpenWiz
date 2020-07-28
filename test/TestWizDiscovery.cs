@@ -3,7 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Net;
 
-public class TestWizDiscovery : IWizDiscoveryListener {
+public class TestWizDiscovery {
 
     private ConcurrentDictionary<string, WizHandle> handles;
     private WizSocket socket;
@@ -39,7 +39,7 @@ public class TestWizDiscovery : IWizDiscoveryListener {
         TestWizDiscovery twd = new TestWizDiscovery();
         WizDiscoveryService wds = new WizDiscoveryService(390198, "192.168.0.100", new byte[]{ 0xF0, 0x18, 0x98, 0x09, 0x1A, 0xD8});
         twd.OnDiscover(new WizHandle("a8bb5088cfc2", IPAddress.Parse("192.168.0.154")));
-        wds.Start(twd);
+        wds.Start(twd.OnDiscover);
         while (true) {}
     }
 }
