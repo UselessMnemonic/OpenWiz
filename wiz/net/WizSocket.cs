@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace OpenWiz
 {
@@ -18,7 +17,7 @@ namespace OpenWiz
         private const int BUFFER_SIZE = 256;
 
         private readonly Socket socket;
-        private readonly Dictionary<WizHandle, byte[]> bufferMap;
+        private readonly Dictionary<string, byte[]> bufferMap;
 
         /// <summary>
         /// Initializes a new UDP/IP Datagram socket for Wiz lights.
@@ -26,7 +25,7 @@ namespace OpenWiz
         ///
         public WizSocket()
         {
-            bufferMap = new Dictionary<WizHandle, byte[]>();
+            bufferMap = new Dictionary<string, byte[]>();
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
         }
 
@@ -111,38 +110,6 @@ namespace OpenWiz
         }
 
         /// <summary>
-        /// Sends data to a connected socket.
-        /// </summary>
-        /// <param name="s">The data to send.</param>
-        /// <param name="handle">The handle to the remote light.</param>
-        /// <returns>An asynchronous task that completes with the number of
-        /// bytes sent. Otherwise, the task will complete with an invalid
-        /// socket error.</returns>
-        /// 
-        public async Task<int> SendToAsync(WizState s, WizHandle handle)
-        {
-            if (s == null) throw new ArgumentNullException("s cannot be null");
-            if (handle == null) throw new ArgumentNullException("handle cannot be null");
-
-            byte[] buffer = s.ToUTF8();
-            return await socket.SendToAsync(buffer, SocketFlags.None, new IPEndPoint(handle.Ip, PORT_DISCOVER));
-        }
-
-        /// <summary>
-        /// Receives data from a connected socket.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous receive operation.</returns>
-        /// 
-        public async Task<WizState> RecieveFromAsync(WizHandle handle)
-        {
-            if (handle == null) throw new ArgumentNullException("handle cannot be null");
-            byte[] buffer = new byte[BUFFER_SIZE];
-
-            SocketReceiveFromResult result = await socket.ReceiveFromAsync(buffer, SocketFlags.None, new IPEndPoint(handle.Ip, 0));
-            return WizState.Parse(new ArraySegment<byte>(buffer, 0, result.ReceivedBytes));
-        }
-
-        /// <summary>
         /// Sends data asynchronously to a connected OpenWiz.WizSocket.
         /// </summary>
         /// <param name="s">The data to send.</param>
@@ -214,7 +181,7 @@ namespace OpenWiz
         public IAsyncResult BeginRecieveFrom(WizHandle handle, AsyncCallback callback, object state)
         {
             byte[] buffer = new byte[BUFFER_SIZE];
-            bufferMap.Add(handle, buffer);
+            bufferMap.Add(handle.Ip.ToString(), buffer);
 
             EndPoint ep = new IPEndPoint(handle.Ip, 0);
             return socket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None,
@@ -250,8 +217,8 @@ namespace OpenWiz
             EndPoint ep = new IPEndPoint(handle.Ip, 0);
             int rLen = socket.EndReceiveFrom(result, ref ep);
 
-            byte[] buffer = bufferMap[handle];
-            bufferMap.Remove(handle);
+            byte[] buffer = bufferMap[handle.Ip.ToString()];
+            bufferMap.Remove(handle.Ip.ToString());
 
             return WizState.Parse(new ArraySegment<byte>(buffer, 0, rLen));
         }
