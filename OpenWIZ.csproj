@@ -5,6 +5,7 @@
     <Version>1.1.0</Version>
     <Authors>Christopher Madrigal</Authors>
     <Description>A library for communicating with Wiz brand smart lights.</Description>
+    <RepositoryUrl>https://github.com/UselessMnemonic/OpenWiz</RepositoryUrl>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
