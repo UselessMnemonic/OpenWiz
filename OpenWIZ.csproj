@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>OpenWiz</PackageId>
+    <Version>1.1.0</Version>
+    <Authors>Christopher Madrigal</Authors>
+    <Description>A library for communicating with Wiz brand smart lights.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
