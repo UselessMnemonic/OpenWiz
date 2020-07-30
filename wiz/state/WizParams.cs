@@ -35,7 +35,7 @@ namespace OpenWiz
         /// </summary>
         /// <value>true if the current scene is playing; false, otherwise</value>
         /// 
-        public int? Play { get; set; }
+        public bool? Play { get; set; }
 
         /// <summary>
         /// The current Red component of the set color.
@@ -91,21 +91,21 @@ namespace OpenWiz
          */
         
         /// <summary>
-        /// The IP of the client host machine, in standard dot notation.
+        /// The IP of the host machine, in standard dot notation.
         /// </summary>
         /// <value>An IPv4 address in dot notation, or null if none is given.</value>
         /// 
         public string PhoneIp { get; set; }
 
         /// <summary>
-        /// The MAC of the client host machine, as an unformatted lowercase hex string.
+        /// The MAC of the host machine, as an unformatted lowercase hex string.
         /// </summary>
         /// <value>A 12-digit hex string, or null if none is given.</value>
         /// 
         public string PhoneMac { get; set; }
 
         /// <summary>
-        /// Wether a registration request is successful.
+        /// Whether a registration request is successful.
         /// </summary>
         /// <value>true if a register request is successful; false or null, otherwise.</value>
         /// 

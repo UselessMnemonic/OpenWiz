@@ -82,7 +82,7 @@ namespace OpenWiz
         /// <summary>
         /// Generates an object that can be used to request the user's configuration of a light.
         /// </summary>
-        /// <returns>An  object containing the request.</returns>
+        /// <returns>An object containing the request.</returns>
         /// 
         public static WizState MakeGetUserConfig()
         {
@@ -94,7 +94,7 @@ namespace OpenWiz
         /// <summary>
         /// Generates an object that can be used to request the internal configuration of a light.
         /// </summary>
-        /// <returns>An  object containing the request.</returns>
+        /// <returns>An object containing the request.</returns>
         /// 
         public static WizState MakeGetSystemConfig()
         {

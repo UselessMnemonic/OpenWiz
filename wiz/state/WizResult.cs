@@ -7,7 +7,7 @@ namespace OpenWiz
     public class WizResult : WizParams
     {
         /// <summary>
-        /// Wether a method call was successful. Not always used.
+        /// Whether a method call was successful. Not always used.
         /// </summary>
         /// <value>true if a method call is successful; false or null, otherwise</value>
         /// 
