@@ -1,4 +1,6 @@
 # OpenWiz
+![Nuget](https://img.shields.io/nuget/v/OpenWiz)
+
 OpenWiz is a reverse-engineered implementation of the LAN API used between Wiz brand smart lights and the Wiz Android App. The project targets .NET Core, and is 100% C#.
 ## Acknowledgements
 These projects have been every useful in confirming my understanding of how Wiz brand lights work:
